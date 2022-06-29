@@ -3,7 +3,7 @@ import Router from "vue-router";
 import Layout from "../views/Layout.vue";
 
 import authRoute from "./auth";
-// import userRoutes from "./users";
+import skillRoute from "./skills";
 // import currentuserRoutes from "./currentuser";
 // import scheduledtasksRoutes from "./scheduledtasks";
 // import divisionreportingRoutes from "./divisionreporting";
@@ -27,8 +27,8 @@ const router = new Router({
       component: Layout,
       // redirect: "/auth/login", //whenever '/' route is invoked, vuejs will automatically redirect to /auth/login
       children: [
-        authRoute
-        // userRoutes
+        authRoute,
+        ...skillRoute
         // currentuserRoutes,
         // scheduledtasksRoutes,
         // divisionreportingRoutes,

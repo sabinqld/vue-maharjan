@@ -1,10 +1,10 @@
 <template>
   <nav>
-    <v-app-bar dense flat fixed app>
+    <v-app-bar dense flat app color="primary" dark>
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title class="text-uppercase grey--text">CCAC</v-toolbar-title>
+      <v-toolbar-title class="text-uppercase">Sabin Maharjan</v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn text color="grey" @click="signOut()">
+      <v-btn @click="signOut()">
         <span>Sign Out</span>
         <v-icon right>mdi-logout</v-icon>
       </v-btn>
@@ -63,21 +63,56 @@ export default {
   data() {
     return {
       drawer: false,
-      items: [{ icon: "mdi-account", text: "login", route: "/auth/login" }]
-      // secureItems: [
-      //   { icon: "mdi-account", text: "Users", route: "/users" },
-      //   { icon: "mdi-account-group", text: "Teams", route: "/teams" },
-      //   {
-      //     icon: "mdi-format-list-bulleted-type",
-      //     text: "Field Maps",
-      //     route: "/map"
-      //   },
-      //   {
-      //     icon: "mdi-text-box-multiple-outline",
-      //     text: "Disclaimer",
-      //     route: "/disclaimer"
-      //   }
-      // ]
+      items: [
+        { icon: "mdi-account", text: "login", route: "/auth/login" },
+
+        {
+          icon: "mdi-account-settings-outline",
+          "icon-alt": "mdi-account-settings-outline",
+          text: "CV",
+          restricted: true,
+          model: false,
+          children: [
+            { icon: "mdi-menu-right", text: "Skill", path: "/skills" },
+            { icon: "mdi-menu-right", text: "Training", path: "/trainingss" },
+            { icon: "mdi-menu-right", text: "Education", path: "/education" },
+            { icon: "mdi-menu-right", text: "Award", path: "/awards" },
+            { icon: "mdi-menu-right", text: "Project", path: "/projects" },
+            { icon: "mdi-menu-right", text: "Job", path: "/jobs" }
+
+            /*{ icon: "mdi-menu-right", text: "Completions", path: "/completions" }*/
+          ]
+        },
+        {
+          icon: "mdi-newspaper-variant",
+          "icon-alt": "mdi-newspaper-variant",
+          text: "Blog",
+          restricted: true,
+          model: false,
+          children: [
+            { icon: "mdi-menu-right", text: "Article", path: "/articles" },
+            { icon: "mdi-menu-right", text: "Category", path: "/categories" },
+            { icon: "mdi-menu-right", text: "Tag", path: "/tags" }
+
+            /*{ icon: "mdi-menu-right", text: "Completions", path: "/completions" }*/
+          ]
+        },
+        {
+          icon: "mdi-cogs",
+          "icon-alt": "mdi-cogs",
+          text: "Setting",
+          restricted: true,
+          model: false,
+          children: [
+            { icon: "mdi-menu-right", text: "Photo", path: "/photos" },
+            { icon: "mdi-menu-right", text: "Document", path: "/docs" },
+            { icon: "mdi-menu-right", text: "Album", path: "/albums" },
+            { icon: "mdi-menu-right", text: "Slider", path: "/sliders" }
+
+            /*{ icon: "mdi-menu-right", text: "Completions", path: "/completions" }*/
+          ]
+        }
+      ]
     };
   },
   methods: {
@@ -87,7 +122,7 @@ export default {
     ...mapState("Auth", ["loaded", "auth", "user"]),
     itemList() {
       if (this.user.admin === true) {
-        return [...this.items, ...this.secureItems];
+        return [...this.items];
       } else {
         return this.items;
       }

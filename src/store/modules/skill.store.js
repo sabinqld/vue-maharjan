@@ -1,16 +1,19 @@
 import axios from "axios";
 
 const initialState = () => ({
-  status: 0,
   auth: false,
-  access: {},
-  positions: [],
   list: {}
 });
 
 const state = initialState();
 const getters = {
-  isLoaded: state => (state.status == 2 ? true : false)
+  isLoaded(state) {
+    return state.status == 2 ? true : false;
+  },
+
+  getList: state => {
+    return state.user;
+  }
 };
 const actions = {
   checkload({ state, dispatch }) {
@@ -22,7 +25,7 @@ const actions = {
     commit("SET_STATUS", 1);
     return new Promise((resolve, reject) => {
       axios({
-        url: `${process.env.VUE_APP_ROOT_URL}api/currentuser/`,
+        url: `${process.env.VUE_APP_ROOT_URL}api/skills/`,
         method: "get"
       })
         .then(r => {
@@ -32,23 +35,20 @@ const actions = {
         })
         .catch(err => reject(err));
     });
-  },
-  signOut({ dispatch }) {
-    axios
-      .get(process.env.VUE_APP_ROOT_URL + "logout")
-      .then(() => {
-        dispatch("reset", null, { root: true });
-      })
-      .catch(() => {
-        dispatch("reset", null, { root: true });
-      });
   }
 };
 const mutations = {
-  SET_ITEM(state, currentUser) {
-    state.user = currentUser.user;
-    state.access = currentUser.access;
-    state.positions = currentUser.positions;
+  SETLOADING(state, bool) {
+    state.isLoading = bool;
+  },
+  SETJOBS(state, { jobs }) {
+    state.jobs = jobs;
+  },
+  SETSELECTEDJOBID(state, id) {
+    state.selectedJobID = id;
+  },
+  SET_ITEM(state, lists) {
+    state.lists = lists.user;
     state.auth = true;
   },
   SET_STATUS(state, loadingState) {

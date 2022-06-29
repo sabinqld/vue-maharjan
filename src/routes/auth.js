@@ -1,5 +1,5 @@
 export default {
   path: "/auth/login/",
-  name: "Login",
+  name: "Login Route",
   component: () => import(/* webpackChunkName: "user" */ "../views/Login")
 };
