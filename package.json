@@ -11,7 +11,9 @@
     "axios": "^0.27.2",
     "core-js": "^3.8.3",
     "vue": "^2.6.14",
+    "vue-editor-js": "^2.0.2",
     "vue-router": "^3.5.1",
+    "vue2-editor": "^2.10.3",
     "vuetify": "^2.6.0",
     "vuex": "^3.6.2",
     "vuex-map-fields": "^1.4.1"
