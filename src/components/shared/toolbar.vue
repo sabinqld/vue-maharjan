@@ -1,13 +1,13 @@
 <template>
-  <v-card color="secondary">
+  <v-card color="primary">
     <v-layout row class="mb-2 px-3 py-2">
       <v-layout class="pa-2">
         {{ options.displayName }}
       </v-layout>
       <v-spacer></v-spacer>
-      <v-tooltip top v-for="(action, idx) in options.actions" :key="'a_' + idx">
+      <v-tooltip top v-for="(action, idx) in options.actions" :key="'s_' + idx">
         <template v-slot:activator="{ on }">
-          <v-btn class="mx-1" fab dark small color="secondary" @click="$emit(action.event)" v-on="on">
+          <v-btn class="mx-1" fab dark small color="primary" @click="$emit(action.event)" v-on="on">
             <v-icon v-on="on">{{ action.icon }}</v-icon>
           </v-btn>
         </template>
@@ -16,6 +16,7 @@
     </v-layout>
   </v-card>
 </template>
+
 <script>
 export default {
   name: "toolbar",
@@ -29,7 +30,7 @@ export default {
           actions: []
         };
       },
-      validator: (options) => {
+      validator: options => {
         if (options.actions.length < 1) {
           console.log("No actions have been defined on toolbar");
         }
@@ -40,7 +41,7 @@ export default {
   computed: {
     sorting() {
       if (this.options.sort) {
-        return this.options.sort.map((item) => {
+        return this.options.sort.map(item => {
           if (typeof item == "string") {
             return {
               text: item,

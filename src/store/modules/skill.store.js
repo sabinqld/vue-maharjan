@@ -1,18 +1,15 @@
 import axios from "axios";
 
 const initialState = () => ({
+  status: 0,
   auth: false,
-  list: {}
+  lists: []
 });
 
 const state = initialState();
 const getters = {
   isLoaded(state) {
     return state.status == 2 ? true : false;
-  },
-
-  getList: state => {
-    return state.user;
   }
 };
 const actions = {
@@ -24,8 +21,9 @@ const actions = {
   load({ commit }) {
     commit("SET_STATUS", 1);
     return new Promise((resolve, reject) => {
+      console.log(`${process.env.VUE_APP_ROOT_URL}/api/skills/`);
       axios({
-        url: `${process.env.VUE_APP_ROOT_URL}api/skills/`,
+        url: `${process.env.VUE_APP_ROOT_URL}/api/skills`,
         method: "get"
       })
         .then(r => {
@@ -38,17 +36,8 @@ const actions = {
   }
 };
 const mutations = {
-  SETLOADING(state, bool) {
-    state.isLoading = bool;
-  },
-  SETJOBS(state, { jobs }) {
-    state.jobs = jobs;
-  },
-  SETSELECTEDJOBID(state, id) {
-    state.selectedJobID = id;
-  },
   SET_ITEM(state, lists) {
-    state.lists = lists.user;
+    state.lists = lists;
     state.auth = true;
   },
   SET_STATUS(state, loadingState) {

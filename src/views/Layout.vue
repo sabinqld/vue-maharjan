@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <nav-bar />
+    <Navbar />
     <v-main class="mx-2 mb-2">
       <router-view @show-msg="showMsg" @hide-msg="hideMsg" />
     </v-main>
@@ -18,7 +18,7 @@
 import Navbar from "../components/Navigation/Navbar";
 export default {
   components: {
-    "nav-bar": Navbar
+    Navbar
   },
   data: () => ({
     msg: {
@@ -45,8 +45,7 @@ export default {
     }
   }
   // beforeCreate() {
-  //   this.$store.dispatch("Team/checkload");
-  //   this.$store.dispatch("Combos/load");
+  //   this.$store.dispatch("Skill/checkload");
   // }
 };
 </script>

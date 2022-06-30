@@ -27,7 +27,7 @@ const router = new Router({
       component: Layout,
       // redirect: "/auth/login", //whenever '/' route is invoked, vuejs will automatically redirect to /auth/login
       children: [
-        authRoute,
+        ...authRoute,
         ...skillRoute
         // currentuserRoutes,
         // scheduledtasksRoutes,
@@ -39,7 +39,6 @@ const router = new Router({
         // qlikaccessQCVT,
         // reportingRoutes
       ]
-      // courseRoute, offerRoute, teamRoute, userRoute, formRoute, mapRoute, disclaimerRoute]
     }
   ]
 });

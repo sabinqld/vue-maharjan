@@ -73,14 +73,14 @@ export default {
           restricted: true,
           model: false,
           children: [
-            { icon: "mdi-menu-right", text: "Skill", path: "/skills" },
-            { icon: "mdi-menu-right", text: "Training", path: "/trainingss" },
-            { icon: "mdi-menu-right", text: "Education", path: "/education" },
-            { icon: "mdi-menu-right", text: "Award", path: "/awards" },
-            { icon: "mdi-menu-right", text: "Project", path: "/projects" },
-            { icon: "mdi-menu-right", text: "Job", path: "/jobs" }
+            { icon: "mdi-menu-right", text: "Skill", route: "/skills" },
+            { icon: "mdi-menu-right", text: "Training", route: "/trainingss" },
+            { icon: "mdi-menu-right", text: "Education", route: "/education" },
+            { icon: "mdi-menu-right", text: "Award", route: "/awards" },
+            { icon: "mdi-menu-right", text: "Project", route: "/projects" },
+            { icon: "mdi-menu-right", text: "Job", route: "/jobs" }
 
-            /*{ icon: "mdi-menu-right", text: "Completions", path: "/completions" }*/
+            /*{ icon: "mdi-menu-right", text: "Completions", route: "/completions" }*/
           ]
         },
         {
@@ -90,11 +90,11 @@ export default {
           restricted: true,
           model: false,
           children: [
-            { icon: "mdi-menu-right", text: "Article", path: "/articles" },
-            { icon: "mdi-menu-right", text: "Category", path: "/categories" },
-            { icon: "mdi-menu-right", text: "Tag", path: "/tags" }
+            { icon: "mdi-menu-right", text: "Article", route: "/articles" },
+            { icon: "mdi-menu-right", text: "Category", route: "/categories" },
+            { icon: "mdi-menu-right", text: "Tag", route: "/tags" }
 
-            /*{ icon: "mdi-menu-right", text: "Completions", path: "/completions" }*/
+            /*{ icon: "mdi-menu-right", text: "Completions", route: "/completions" }*/
           ]
         },
         {
@@ -104,12 +104,12 @@ export default {
           restricted: true,
           model: false,
           children: [
-            { icon: "mdi-menu-right", text: "Photo", path: "/photos" },
-            { icon: "mdi-menu-right", text: "Document", path: "/docs" },
-            { icon: "mdi-menu-right", text: "Album", path: "/albums" },
-            { icon: "mdi-menu-right", text: "Slider", path: "/sliders" }
+            { icon: "mdi-menu-right", text: "Photo", route: "/photos" },
+            { icon: "mdi-menu-right", text: "Document", route: "/docs" },
+            { icon: "mdi-menu-right", text: "Album", route: "/albums" },
+            { icon: "mdi-menu-right", text: "Slider", route: "/sliders" }
 
-            /*{ icon: "mdi-menu-right", text: "Completions", path: "/completions" }*/
+            /*{ icon: "mdi-menu-right", text: "Completions", route: "/completions" }*/
           ]
         }
       ]
