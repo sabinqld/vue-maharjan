@@ -31,6 +31,7 @@
 <script>
 import { mapState } from "vuex";
 import toolbar from "@/components/shared/toolbar";
+
 export default {
   name: "skill",
   components: {
@@ -98,11 +99,17 @@ export default {
       this.tagsList.splice(this.tagsList.indexOf(item), 1);
       this.tagsList = [...this.tagsList];
     },
+
+    /**
+     * refresh the particular load action from store
+     */
     refreshData() {
       this.$store.dispatch("Skill/load");
-
       //this.updateStores();
     },
+    /**
+     * add button to navigate to route  for adding item
+     */
     addItem() {
       this.$router.push({ name: "create-skill", params: { id: null } });
     },

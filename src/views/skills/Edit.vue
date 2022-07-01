@@ -3,8 +3,8 @@
     <v-container>
       <v-row>
         <template>
-          <v-form ref="form" v-model="valid">
-            <v-text-field v-model="name" label="Title" required></v-text-field>
+          <v-form ref="form">
+            <v-text-field v-model="title" label="Title" required></v-text-field>
 
             <v-text-field label="Percentage" v-model="percentage"></v-text-field>
 
@@ -12,6 +12,8 @@
             <v-text-field label="Level" v-model="level"></v-text-field>
             <v-text-field label="Experience" v-model="experience"></v-text-field>
             <v-toolbar flat>
+              <v-btn v-show="!dataDirty" ripple rounded color="accent" @click="deleteCourse">Delete</v-btn>
+              <v-spacer></v-spacer>
               <v-btn v-show="!dataDirty" ripple rounded color="secondary" @click="cancel">Close</v-btn>
               <v-btn v-show="!dataDirty" ripple rounded @click="cancel">Cancel</v-btn>
               <v-btn v-show="!dataDirty" ripple rounded color="primary" @click="save()">Save</v-btn>
@@ -34,8 +36,13 @@
   </v-card>
 </template>
 <script>
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 import { VueEditor } from "vue2-editor";
+import { createHelpers } from "vuex-map-fields";
+const { mapFields } = createHelpers({
+  getterType: "getItemField",
+  mutationType: "updateItemField"
+});
 export default {
   name: "edit-skill",
   components: {
@@ -93,11 +100,43 @@ export default {
   },
 
   methods: {
-    addItem() {
-      this.$router.push({ name: "create-skill", params: { id: null } });
+    ...mapActions("Skill", ["saveNew", "saveExisting", "cancelItem", "deleteItem"]),
+    cancel() {
+      this.cancelItem();
+      this.$router.go(-1);
     },
-    editItem(id) {
-      this.$router.push({ name: "edit-skill", params: { id: id } });
+    save() {
+      if (this.id) {
+        this.saveExisting().then(() => this.$router.go(-1));
+      } else {
+        this.saveNew({
+          title: this.title,
+          description: this.description,
+          level: this.level,
+          percentage: this.percentage,
+          experience: this.experience
+        }).then(() => this.$router.go(-1));
+        //.catch(err => console.log(err));
+      }
+    },
+    deleteCourse() {
+      this.deleteItem().then(() => {
+        this.$router.push({ name: "profiles" });
+      });
+    }
+
+    // addItem() {
+    //   this.$router.push({ name: "create-skill", params: { id: null } });
+    // },
+    // editItem(id) {
+    //   this.$router.push({ name: "edit-skill", params: { id: id } });
+    // }
+  },
+  beforeMount() {
+    if (this.id) {
+      this.$store.dispatch("Skill/loadSkill", this.id);
+    } else {
+      this.$store.dispatch("Skill/createNew");
     }
   },
   beforeCreate() {
