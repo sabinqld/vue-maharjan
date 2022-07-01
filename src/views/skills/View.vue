@@ -29,7 +29,7 @@
   </div>
 </template>
 <script>
-import { mapState, mapGetters } from "vuex";
+import { mapState, mapGetters, mapActions } from "vuex";
 import toolbar from "@/components/shared/toolbar";
 
 export default {
@@ -95,10 +95,7 @@ export default {
   },
 
   methods: {
-    remove(item) {
-      this.tagsList.splice(this.tagsList.indexOf(item), 1);
-      this.tagsList = [...this.tagsList];
-    },
+    ...mapActions("Skill", ["edit"]),
 
     /**
      * refresh the particular load action from store
@@ -114,6 +111,7 @@ export default {
       this.$router.push({ name: "create-skill", params: { id: null } });
     },
     editItem(id) {
+      this.$store.dispatch("Skill/findByID", id);
       this.$router.push({ name: "edit-skill", params: { id: id } });
     }
   },

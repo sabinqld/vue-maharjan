@@ -41,9 +41,9 @@ const actions = {
   load({ commit }) {
     commit("SET_STATUS", 1);
     return new Promise((resolve, reject) => {
-      console.log(`${process.env.VUE_APP_ROOT_URL}/api/skills/`);
+      console.log(`${process.env.VUE_APP_ROOT_URL}api/skills/`);
       axios({
-        url: `${process.env.VUE_APP_ROOT_URL}/api/skills`,
+        url: `${process.env.VUE_APP_ROOT_URL}api/skills`,
         method: "get"
       })
         .then(r => {
@@ -67,7 +67,7 @@ const actions = {
   saveNew({ commit }, data) {
     return new Promise((resolve, reject) => {
       axios({
-        url: process.env.VUE_APP_ROOT_URL + "/api/skills",
+        url: process.env.VUE_APP_ROOT_URL + "api/skills",
         method: "post",
         data: data
       })
@@ -94,7 +94,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       console.log(" i am in save exissting page");
       axios({
-        url: process.env.VUE_APP_ROOT_URL + "/api/skills",
+        url: process.env.VUE_APP_ROOT_URL + "api/skills",
         method: "post",
         data: state.item
       })
@@ -124,10 +124,22 @@ const actions = {
   cancelItem({ commit }) {
     commit("CLEAR_ITEM");
   },
+
+  findByID({ commit }, id) {
+    return new Promise(() => {
+      axios({
+        url: process.env.VUE_APP_ROOT_URL + "api/skills/" + id,
+        method: "get"
+      }).then(result => {
+        console.log(result.data);
+        commit("SET_SINGLE_ITEM", result.data);
+      });
+    });
+  },
   delete({ commit }, itemObj) {
     return new Promise(resolve => {
       axios({
-        url: process.env.VUE_APP_APIBASEURL + "api/form/" + itemObj.id,
+        url: process.env.VUE_APP_ROOT_URL + "api/form/" + itemObj.id,
         method: "delete",
         data: itemObj
       }).then(resp => {
@@ -143,11 +155,11 @@ const actions = {
   },
   loadSkill({ commit }, id) {
     axios({
-      url: process.env.VUE_APP_ROOT_URL + "/api/skills/" + id,
+      url: process.env.VUE_APP_ROOT_URL + "api/skills/" + id,
       method: "get"
     }).then(r => {
       let item = r.data.lists[0];
-      commit("SET_ITEM_ID", item);
+      commit("SET_SINGLE_ITEM", item);
     });
   }
 };
@@ -157,7 +169,7 @@ const mutations = {
     state.itemLoaded = true;
     state.auth = true;
   },
-  SET_ITEM_ID(state, item) {
+  SET_SINGLE_ITEM(state, item) {
     state.item = item;
     state.itemLoaded = true;
     state.auth = true;

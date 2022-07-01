@@ -51,6 +51,12 @@ export default {
   },
   props: ["id"],
   data: () => ({
+    title: "",
+    description: "",
+    level: "",
+    experience: "",
+    percentage: "",
+
     search: "",
     panels: [2, 4],
     customToolbar: [
@@ -142,13 +148,11 @@ export default {
   },
   beforeMount() {
     if (this.id) {
-      this.$store.dispatch("Skill/loadSkill", this.id);
+      this.$store.dispatch("Skill/findByID", this.id);
     } else {
       this.$store.dispatch("Skill/createNew");
     }
   },
-  beforeCreate() {
-    this.$store.dispatch("Skill/checkload");
-  }
+  beforeCreate() {}
 };
 </script>
