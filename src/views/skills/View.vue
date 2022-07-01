@@ -29,7 +29,7 @@
   </div>
 </template>
 <script>
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 import toolbar from "@/components/shared/toolbar";
 
 export default {

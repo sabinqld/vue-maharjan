@@ -11,10 +11,11 @@
             <vue-editor :editorToolbar="customToolbar" v-model="description"></vue-editor>
             <v-text-field label="Level" v-model="level"></v-text-field>
             <v-text-field label="Experience" v-model="experience"></v-text-field>
+            {{ getUser.id }}
             <v-toolbar flat>
               <v-btn v-show="!dataDirty" ripple rounded color="accent" @click="deleteCourse">Delete</v-btn>
               <v-spacer></v-spacer>
-              <v-btn v-show="!dataDirty" ripple rounded color="secondary" @click="cancel">Close</v-btn>
+
               <v-btn v-show="!dataDirty" ripple rounded @click="cancel">Cancel</v-btn>
               <v-btn v-show="!dataDirty" ripple rounded color="primary" @click="save()">Save</v-btn>
             </v-toolbar>
@@ -36,7 +37,7 @@
   </v-card>
 </template>
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions, mapGetters } from "vuex";
 import { VueEditor } from "vue2-editor";
 import { createHelpers } from "vuex-map-fields";
 const { mapFields } = createHelpers({
@@ -83,7 +84,8 @@ export default {
     ...mapState("Skill", {
       status: 1,
       dataDirty: "itemDirty"
-    })
+    }),
+    ...mapGetters("Auth", ["getUser"])
   },
   loadedFn() {
     if (this.itemLoaded) {
@@ -101,25 +103,31 @@ export default {
 
   methods: {
     ...mapActions("Skill", ["saveNew", "saveExisting", "cancelItem", "deleteItem"]),
+
     cancel() {
       this.cancelItem();
       this.$router.go(-1);
     },
     save() {
       if (this.id) {
+        console.log(" i have id");
         this.saveExisting().then(() => this.$router.go(-1));
       } else {
+        console.log(" i dont have id");
+
         this.saveNew({
           title: this.title,
           description: this.description,
           level: this.level,
           percentage: this.percentage,
-          experience: this.experience
+          experience: this.experience,
+          type: "programming",
+          user_id: this.getUser.id
         }).then(() => this.$router.go(-1));
         //.catch(err => console.log(err));
       }
     },
-    deleteCourse() {
+    delete() {
       this.deleteItem().then(() => {
         this.$router.push({ name: "profiles" });
       });

@@ -11,9 +11,8 @@ const initialState = () => ({
 
 const state = initialState();
 const getters = {
-  loaded(state) {
-    return state.status == 2 ? true : false;
-  },
+  loaded: state => (state.status == 2 ? true : false),
+  list: state => [...state.list],
   loading(state) {
     return state.status == 1 ? true : false;
   },
@@ -57,19 +56,16 @@ const actions = {
   },
   createNew({ commit }) {
     commit("SET_ITEM", {
-      title: "",
-
+      title: "auto generated",
       description: "",
       percentage: "",
       level: "",
-      experience: ""
+      experience: "",
+      user_id: null
     });
   },
   saveNew({ commit }, data) {
     return new Promise((resolve, reject) => {
-      let item = Object.assign({}, state.item);
-      console.log(item);
-      console.log(process.env.VUE_APP_ROOT_URL + "/api/skills");
       axios({
         url: process.env.VUE_APP_ROOT_URL + "/api/skills",
         method: "post",
@@ -81,8 +77,10 @@ const actions = {
             title: state.item.title,
             description: state.item.description,
             level: state.item.level,
+            type: "programming",
             percentage: state.item.percentage,
-            experience: state.item.experience
+            experience: state.item.experience,
+            user_id: state.item.user_id
           });
           commit("CLEAR_ITEM");
           resolve();
@@ -94,8 +92,9 @@ const actions = {
   },
   saveExisting({ state, commit }) {
     return new Promise((resolve, reject) => {
+      console.log(" i am in save exissting page");
       axios({
-        url: process.env.VUE_APP_ROOT_URL + "api/skills",
+        url: process.env.VUE_APP_ROOT_URL + "/api/skills",
         method: "post",
         data: state.item
       })
@@ -125,30 +124,49 @@ const actions = {
   cancelItem({ commit }) {
     commit("CLEAR_ITEM");
   },
+  delete({ commit }, itemObj) {
+    return new Promise(resolve => {
+      axios({
+        url: process.env.VUE_APP_APIBASEURL + "api/form/" + itemObj.id,
+        method: "delete",
+        data: itemObj
+      }).then(resp => {
+        console.log(resp);
+        if (resp.data == "In use.") {
+          resolve(false);
+        } else {
+          commit("REMOVE_ITEM", itemObj);
+          resolve(true);
+        }
+      });
+    });
+  },
   loadSkill({ commit }, id) {
     axios({
-      url: process.env.VUE_APP_ROOT_URL + "api/skills/" + id,
+      url: process.env.VUE_APP_ROOT_URL + "/api/skills/" + id,
       method: "get"
     }).then(r => {
       let item = r.data.lists[0];
-      commit("SET_ITEM", item);
+      commit("SET_ITEM_ID", item);
     });
   }
 };
 const mutations = {
   SET_ITEM(state, lists) {
     state.lists = lists;
+    state.itemLoaded = true;
     state.auth = true;
   },
+  SET_ITEM_ID(state, item) {
+    state.item = item;
+    state.itemLoaded = true;
+    state.auth = true;
+  },
+
   SET_STATUS(state, loadingState) {
     state.status = loadingState;
   },
-  RESET(state) {
-    const newState = initialState();
-    Object.keys(newState).forEach(key => {
-      state[key] = newState[key];
-    });
-  },
+
   ADD_TO_LIST(state, data) {
     state.list = data;
   },
@@ -156,7 +174,6 @@ const mutations = {
     state.item = {};
     state.itemLoaded = false;
     state.itemDirty = false;
-    state.itemDraft = false;
   }
 };
 
