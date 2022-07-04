@@ -21,6 +21,8 @@ const getters = {
   },
 
   getItemField(state) {
+    console.log("getITemFILED");
+    console.log(state);
     return getField(state.item);
   },
   listAll(state) {
@@ -56,7 +58,7 @@ const actions = {
   },
   createNew({ commit }) {
     commit("SET_ITEM", {
-      title: "auto generated",
+      title: "",
       description: "",
       percentage: "",
       level: "",
@@ -131,8 +133,7 @@ const actions = {
         url: process.env.VUE_APP_ROOT_URL + "api/skills/" + id,
         method: "get"
       }).then(result => {
-        console.log(result.data);
-        commit("SET_SINGLE_ITEM", result.data);
+        commit("updateItemField", result.data);
       });
     });
   },
@@ -159,23 +160,25 @@ const actions = {
       method: "get"
     }).then(r => {
       let item = r.data.lists[0];
-      commit("SET_SINGLE_ITEM", item);
+      commit("updateItemField", item);
     });
   }
 };
 const mutations = {
-  SET_ITEM(state, lists) {
+  SET_ITEM: (state, lists) => {
     state.lists = lists;
     state.itemLoaded = true;
     state.auth = true;
   },
-  SET_SINGLE_ITEM(state, item) {
-    state.item = item;
-    state.itemLoaded = true;
-    state.auth = true;
+  updateItemField: (state, field) => {
+    console.log("field data");
+    console.log(state.item);
+    updateField(state.item, field[0]);
+    console.log(state.item);
+    state.itemDirty = true;
   },
 
-  SET_STATUS(state, loadingState) {
+  SET_STATUS: (state, loadingState) => {
     state.status = loadingState;
   },
 

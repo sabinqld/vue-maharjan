@@ -13,9 +13,6 @@
             <v-text-field label="Experience" v-model="experience"></v-text-field>
             {{ getUser.id }}
             <v-toolbar flat>
-              <v-btn v-show="!dataDirty" ripple rounded color="accent" @click="deleteCourse">Delete</v-btn>
-              <v-spacer></v-spacer>
-
               <v-btn v-show="!dataDirty" ripple rounded @click="cancel">Cancel</v-btn>
               <v-btn v-show="!dataDirty" ripple rounded color="primary" @click="save()">Save</v-btn>
             </v-toolbar>
@@ -51,12 +48,6 @@ export default {
   },
   props: ["id"],
   data: () => ({
-    title: "",
-    description: "",
-    level: "",
-    experience: "",
-    percentage: "",
-
     search: "",
     panels: [2, 4],
     customToolbar: [
@@ -87,11 +78,15 @@ export default {
   }),
 
   computed: {
+    ...mapFields("Skill", ["title", "description", "level", "experience", "percentage"]),
     ...mapState("Skill", {
       status: 1,
       dataDirty: "itemDirty"
     }),
-    ...mapGetters("Auth", ["getUser"])
+    ...mapState("Skill", ["item"]),
+
+    ...mapGetters("Auth", ["getUser"]),
+    ...mapGetters("Skill", ["getItemField"])
   },
   loadedFn() {
     if (this.itemLoaded) {
@@ -149,6 +144,7 @@ export default {
   beforeMount() {
     if (this.id) {
       this.$store.dispatch("Skill/findByID", this.id);
+      this.title = this.item.title;
     } else {
       this.$store.dispatch("Skill/createNew");
     }

@@ -111,7 +111,7 @@ export default {
       this.$router.push({ name: "create-skill", params: { id: null } });
     },
     editItem(id) {
-      this.$store.dispatch("Skill/findByID", id);
+      console.log(this.$store.dispatch("Skill/findByID", id));
       this.$router.push({ name: "edit-skill", params: { id: id } });
     }
   },
