@@ -10,6 +10,7 @@ const initialState = () => ({
 });
 
 const state = initialState();
+
 const getters = {
   loaded: state => (state.status == 2 ? true : false),
   list: state => [...state.list],
@@ -21,8 +22,6 @@ const getters = {
   },
 
   getItemField(state) {
-    console.log("getITemFILED");
-    console.log(state);
     return getField(state.item);
   },
   listAll(state) {
@@ -30,7 +29,10 @@ const getters = {
       return item;
     });
   },
-  item(state) {
+  getItemByID: (state, id) => {
+    return state.lists.find(item => item.id === id);
+  },
+  getItem(state) {
     return state.item;
   }
 };
@@ -49,7 +51,7 @@ const actions = {
         method: "get"
       })
         .then(r => {
-          commit("SET_ITEM", r.data);
+          commit("SET_LIST", r.data);
           commit("SET_STATUS", 2);
           resolve(r.data);
         })
@@ -57,6 +59,7 @@ const actions = {
     });
   },
   createNew({ commit }) {
+    console.log("I am inside new");
     commit("SET_ITEM", {
       title: "",
       description: "",
@@ -127,13 +130,20 @@ const actions = {
     commit("CLEAR_ITEM");
   },
 
-  findByID({ commit }, id) {
+  findByID({ state, commit }, id) {
+    console.log("inside findbyid");
+
     return new Promise(() => {
+      // const item = state.lists.find(item => item.id == id);
+      // console.log(item);
+      // commit("updateItemField", item);
       axios({
         url: process.env.VUE_APP_ROOT_URL + "api/skills/" + id,
         method: "get"
       }).then(result => {
-        commit("updateItemField", result.data);
+        console.log("reuslt data inside findbyid");
+        console.log(result.data[0]);
+        commit("updateItemField", result.data[0]);
       });
     });
   },
@@ -165,16 +175,25 @@ const actions = {
   }
 };
 const mutations = {
-  SET_ITEM: (state, lists) => {
-    state.lists = lists;
+  SET_LIST(state, data) {
+    state.lists = data;
+  },
+  SET_ITEM: (state, item) => {
+    state.item = item;
+    state.itemLoaded = true;
+    state.auth = true;
+  },
+  SET_SINGLE_ITEM: (state, item) => {
+    state.item = item;
     state.itemLoaded = true;
     state.auth = true;
   },
   updateItemField: (state, field) => {
     console.log("field data");
+    console.log(field);
     console.log(state.item);
-    updateField(state.item, field[0]);
-    console.log(state.item);
+    state.item = field;
+    updateField(state.item, field);
     state.itemDirty = true;
   },
 

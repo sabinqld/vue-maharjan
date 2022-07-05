@@ -13,28 +13,17 @@
             <v-text-field label="Experience" v-model="experience"></v-text-field>
             {{ getUser.id }}
             <v-toolbar flat>
-              <v-btn v-show="!dataDirty" ripple rounded @click="cancel">Cancel</v-btn>
-              <v-btn v-show="!dataDirty" ripple rounded color="primary" @click="save()">Save</v-btn>
+              <v-btn v-show="dataDirty" ripple rounded @click="cancel">Cancel</v-btn>
+              <v-btn v-show="dataDirty" ripple rounded color="primary" @click="save()">Save</v-btn>
             </v-toolbar>
           </v-form>
         </template>
       </v-row>
     </v-container>
-
-    <!-- <v-menu offset-y>
-      <template v-slot:activator="{ on }">
-        <v-btn v-show="itemDirty" ripple rounded color="primary" dark v-on="on">Save</v-btn>
-      </template>
-      <v-list>
-        <v-list-item v-for="(item, index) in saveOptions" :key="index" @click="save(item.click)">
-          <v-list-item-title>{{ item.title }}</v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-menu> -->
   </v-card>
 </template>
 <script>
-import { mapState, mapActions, mapGetters } from "vuex";
+import { mapState, mapActions, mapMutations, mapGetters } from "vuex";
 import { VueEditor } from "vue2-editor";
 import { createHelpers } from "vuex-map-fields";
 const { mapFields } = createHelpers({
@@ -85,8 +74,7 @@ export default {
     }),
     ...mapState("Skill", ["item"]),
 
-    ...mapGetters("Auth", ["getUser"]),
-    ...mapGetters("Skill", ["getItemField"])
+    ...mapGetters("Auth", ["getUser"])
   },
   loadedFn() {
     if (this.itemLoaded) {
@@ -144,11 +132,12 @@ export default {
   beforeMount() {
     if (this.id) {
       this.$store.dispatch("Skill/findByID", this.id);
-      this.title = this.item.title;
     } else {
       this.$store.dispatch("Skill/createNew");
     }
   },
-  beforeCreate() {}
+  beforeCreate() {
+    this.$store.dispatch("Skill/checkload");
+  }
 };
 </script>

@@ -2,7 +2,7 @@
   <nav>
     <v-app-bar dense flat app color="primary" dark>
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title class="text-uppercase">Sabin Maharjan</v-toolbar-title>
+      <v-toolbar-title class="text-uppercase">Practise Practise</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn @click="signOut()">
         <span>Sign Out</span>
@@ -73,45 +73,45 @@ export default {
           restricted: true,
           model: false,
           children: [
-            { icon: "mdi-menu-right", text: "Skill", route: "/skills" },
-            { icon: "mdi-menu-right", text: "Training", route: "/trainingss" },
-            { icon: "mdi-menu-right", text: "Education", route: "/education" },
-            { icon: "mdi-menu-right", text: "Award", route: "/awards" },
-            { icon: "mdi-menu-right", text: "Project", route: "/projects" },
-            { icon: "mdi-menu-right", text: "Job", route: "/jobs" }
-
-            /*{ icon: "mdi-menu-right", text: "Completions", route: "/completions" }*/
-          ]
-        },
-        {
-          icon: "mdi-newspaper-variant",
-          "icon-alt": "mdi-newspaper-variant",
-          text: "Blog",
-          restricted: true,
-          model: false,
-          children: [
-            { icon: "mdi-menu-right", text: "Article", route: "/articles" },
-            { icon: "mdi-menu-right", text: "Category", route: "/categories" },
-            { icon: "mdi-menu-right", text: "Tag", route: "/tags" }
-
-            /*{ icon: "mdi-menu-right", text: "Completions", route: "/completions" }*/
-          ]
-        },
-        {
-          icon: "mdi-cogs",
-          "icon-alt": "mdi-cogs",
-          text: "Setting",
-          restricted: true,
-          model: false,
-          children: [
-            { icon: "mdi-menu-right", text: "Photo", route: "/photos" },
-            { icon: "mdi-menu-right", text: "Document", route: "/docs" },
-            { icon: "mdi-menu-right", text: "Album", route: "/albums" },
-            { icon: "mdi-menu-right", text: "Slider", route: "/sliders" }
+            { icon: "mdi-menu-right", text: "Skill", route: "/skills" }
+            // { icon: "mdi-menu-right", text: "Training", route: "/trainingss" },
+            // { icon: "mdi-menu-right", text: "Education", route: "/education" },
+            // { icon: "mdi-menu-right", text: "Award", route: "/awards" },
+            // { icon: "mdi-menu-right", text: "Project", route: "/projects" },
+            // { icon: "mdi-menu-right", text: "Job", route: "/jobs" }
 
             /*{ icon: "mdi-menu-right", text: "Completions", route: "/completions" }*/
           ]
         }
+        // {
+        //   icon: "mdi-newspaper-variant",
+        //   "icon-alt": "mdi-newspaper-variant",
+        //   text: "Blog",
+        //   restricted: true,
+        //   model: false,
+        //   children: [
+        //     { icon: "mdi-menu-right", text: "Article", route: "/articles" },
+        //     { icon: "mdi-menu-right", text: "Category", route: "/categories" },
+        //     { icon: "mdi-menu-right", text: "Tag", route: "/tags" }
+
+        //     /*{ icon: "mdi-menu-right", text: "Completions", route: "/completions" }*/
+        //   ]
+        // },
+        // {
+        //   icon: "mdi-cogs",
+        //   "icon-alt": "mdi-cogs",
+        //   text: "Setting",
+        //   restricted: true,
+        //   model: false,
+        //   children: [
+        //     { icon: "mdi-menu-right", text: "Photo", route: "/photos" },
+        //     { icon: "mdi-menu-right", text: "Document", route: "/docs" },
+        //     { icon: "mdi-menu-right", text: "Album", route: "/albums" },
+        //     { icon: "mdi-menu-right", text: "Slider", route: "/sliders" }
+
+        //     /*{ icon: "mdi-menu-right", text: "Completions", route: "/completions" }*/
+        //   ]
+        // }
       ]
     };
   },
