@@ -69,49 +69,11 @@ export default {
         {
           icon: "mdi-account-settings-outline",
           "icon-alt": "mdi-account-settings-outline",
-          text: "CV",
+          text: "Test",
           restricted: true,
           model: false,
-          children: [
-            { icon: "mdi-menu-right", text: "Skill", route: "/skills" }
-            // { icon: "mdi-menu-right", text: "Training", route: "/trainingss" },
-            // { icon: "mdi-menu-right", text: "Education", route: "/education" },
-            // { icon: "mdi-menu-right", text: "Award", route: "/awards" },
-            // { icon: "mdi-menu-right", text: "Project", route: "/projects" },
-            // { icon: "mdi-menu-right", text: "Job", route: "/jobs" }
-
-            /*{ icon: "mdi-menu-right", text: "Completions", route: "/completions" }*/
-          ]
+          children: [{ icon: "mdi-menu-right", text: "Skill", route: "/skills" }]
         }
-        // {
-        //   icon: "mdi-newspaper-variant",
-        //   "icon-alt": "mdi-newspaper-variant",
-        //   text: "Blog",
-        //   restricted: true,
-        //   model: false,
-        //   children: [
-        //     { icon: "mdi-menu-right", text: "Article", route: "/articles" },
-        //     { icon: "mdi-menu-right", text: "Category", route: "/categories" },
-        //     { icon: "mdi-menu-right", text: "Tag", route: "/tags" }
-
-        //     /*{ icon: "mdi-menu-right", text: "Completions", route: "/completions" }*/
-        //   ]
-        // },
-        // {
-        //   icon: "mdi-cogs",
-        //   "icon-alt": "mdi-cogs",
-        //   text: "Setting",
-        //   restricted: true,
-        //   model: false,
-        //   children: [
-        //     { icon: "mdi-menu-right", text: "Photo", route: "/photos" },
-        //     { icon: "mdi-menu-right", text: "Document", route: "/docs" },
-        //     { icon: "mdi-menu-right", text: "Album", route: "/albums" },
-        //     { icon: "mdi-menu-right", text: "Slider", route: "/sliders" }
-
-        //     /*{ icon: "mdi-menu-right", text: "Completions", route: "/completions" }*/
-        //   ]
-        // }
       ]
     };
   },

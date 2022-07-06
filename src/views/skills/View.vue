@@ -95,7 +95,7 @@ export default {
   },
 
   methods: {
-    ...mapActions("Skill", ["edit"]),
+    ...mapActions("Skill", ["delete"]),
 
     /**
      * refresh the particular load action from store
@@ -113,6 +113,9 @@ export default {
     editItem(id) {
       console.log(this.$store.dispatch("Skill/findByID", id));
       this.$router.push({ name: "edit-skill", params: { id: id } });
+    },
+    deleteItem(id) {
+      this.$store.dispatch("Skill/delete", id);
     }
   },
   beforeCreate() {

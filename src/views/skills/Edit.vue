@@ -23,7 +23,7 @@
   </v-card>
 </template>
 <script>
-import { mapState, mapActions, mapMutations, mapGetters } from "vuex";
+import { mapState, mapActions, mapGetters } from "vuex";
 import { VueEditor } from "vue2-editor";
 import { createHelpers } from "vuex-map-fields";
 const { mapFields } = createHelpers({
@@ -100,10 +100,20 @@ export default {
     save() {
       if (this.id) {
         console.log(" i have id");
-        this.saveExisting().then(() => this.$router.go(-1));
+        this.saveExisting({
+          item: {
+            title: this.title,
+            description: this.description,
+            level: this.level,
+            percentage: this.percentage,
+            experience: this.experience,
+            type: "programming",
+            user_id: this.getUser.id
+          },
+          id: this.id
+        }).then(() => this.$router.go(-1));
       } else {
         console.log(" i dont have id");
-
         this.saveNew({
           title: this.title,
           description: this.description,
@@ -121,13 +131,6 @@ export default {
         this.$router.push({ name: "profiles" });
       });
     }
-
-    // addItem() {
-    //   this.$router.push({ name: "create-skill", params: { id: null } });
-    // },
-    // editItem(id) {
-    //   this.$router.push({ name: "edit-skill", params: { id: id } });
-    // }
   },
   beforeMount() {
     if (this.id) {

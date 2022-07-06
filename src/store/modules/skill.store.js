@@ -95,31 +95,22 @@ const actions = {
         });
     });
   },
-  saveExisting({ state, commit }) {
+  saveExisting({ commit, dispatch }, data) {
     return new Promise((resolve, reject) => {
-      console.log(" i am in save exissting page");
+      console.log("id and data");
+      console.log(data.item);
+      console.log(data.id);
+
       axios({
-        url: process.env.VUE_APP_ROOT_URL + "api/skills",
-        method: "post",
-        data: state.item
+        url: process.env.VUE_APP_ROOT_URL + "api/skills/" + data.id,
+        method: "put",
+        data: data.item
       })
-        .then(() => {
+        .then(r => {
           commit("CLEAN_ITEM");
-          for (var x = 0; x < state.list.length; x++) {
-            if (state.list[x].id === state.item.id) {
-              // this is the one
-              commit("MODIFY_LIST_ITEM", {
-                title: state.item.title,
-                description: state.item.description,
-                level: state.item.level,
-                percentage: state.item.percentage,
-                experience: state.item.experience
-              });
-              break;
-            }
-          }
+          dispatch("load");
           commit("CLEAR_ITEM");
-          resolve();
+          resolve(r);
         })
         .catch(error => {
           reject(error);
@@ -130,7 +121,7 @@ const actions = {
     commit("CLEAR_ITEM");
   },
 
-  findByID({ state, commit }, id) {
+  findByID({ commit }, id) {
     console.log("inside findbyid");
 
     return new Promise(() => {
@@ -143,34 +134,22 @@ const actions = {
       }).then(result => {
         console.log("reuslt data inside findbyid");
         console.log(result.data[0]);
-        commit("updateItemField", result.data[0]);
+        commit("SET_ITEM", result.data[0]);
+        //        commit("updateItemField", result.data[0]);
       });
     });
   },
-  delete({ commit }, itemObj) {
+  delete({ dispatch }, id) {
     return new Promise(resolve => {
       axios({
-        url: process.env.VUE_APP_ROOT_URL + "api/form/" + itemObj.id,
-        method: "delete",
-        data: itemObj
-      }).then(resp => {
-        console.log(resp);
-        if (resp.data == "In use.") {
-          resolve(false);
-        } else {
-          commit("REMOVE_ITEM", itemObj);
-          resolve(true);
-        }
+        url: process.env.VUE_APP_ROOT_URL + "api/skills/" + id,
+        method: "delete"
+      }).then(result => {
+        resolve(result);
+        dispatch("load");
+        // commit("REMOVE_ITEM", result);
+        // resolve(true);
       });
-    });
-  },
-  loadSkill({ commit }, id) {
-    axios({
-      url: process.env.VUE_APP_ROOT_URL + "api/skills/" + id,
-      method: "get"
-    }).then(r => {
-      let item = r.data.lists[0];
-      commit("updateItemField", item);
     });
   }
 };
@@ -183,16 +162,11 @@ const mutations = {
     state.itemLoaded = true;
     state.auth = true;
   },
-  SET_SINGLE_ITEM: (state, item) => {
-    state.item = item;
-    state.itemLoaded = true;
-    state.auth = true;
-  },
   updateItemField: (state, field) => {
     console.log("field data");
     console.log(field);
     console.log(state.item);
-    state.item = field;
+    //state.item = field;
     updateField(state.item, field);
     state.itemDirty = true;
   },
@@ -202,7 +176,14 @@ const mutations = {
   },
 
   ADD_TO_LIST(state, data) {
-    state.list = data;
+    state.item = data;
+  },
+  DELETE_ITEM(state, id) {
+    const index = state.lists.findIndex(item => item.id == id);
+    state.lists.splice(index, 1);
+  },
+  CLEAN_ITEM(state) {
+    state.itemDirty = false;
   },
   CLEAR_ITEM(state) {
     state.item = {};
